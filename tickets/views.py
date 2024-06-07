@@ -39,10 +39,8 @@ def create_ticket(request):
         form = TicketForm(request.POST)
         if form.is_valid():
             ticket = form.save(commit=False)
-            ticket.client = request.user
+            ticket.client = request.user  # Suponiendo que el cliente es el usuario actual
             ticket.save()
-            # Registrar acción
-            TicketHistory.objects.create(ticket=ticket, action='Ticket creado')
             return redirect('dashboard')
     else:
         form = TicketForm()

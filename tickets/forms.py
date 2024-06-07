@@ -6,7 +6,11 @@ from .models import Ticket, Equipment, CustomUser, Comment, ServiceProcedure, Se
 class TicketForm(forms.ModelForm):
     class Meta:
         model = Ticket
-        fields = ['service_type', 'description', 'is_remote']
+        fields = ['title', 'client', 'equipment', 'assigned_technician', 'service_type', 'description', 'is_remote']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['equipment'].queryset = Equipment.objects.all()
 
 class EquipmentForm(forms.ModelForm):
     class Meta:
