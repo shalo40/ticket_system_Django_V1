@@ -1,0 +1,12 @@
+<!-- templates/tickets/assign_technician.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Asignar Técnico al Ticket #{{ ticket.id }}</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Asignar Técnico</button>
+</form>
+{% endblock %}

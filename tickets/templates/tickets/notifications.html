@@ -1,0 +1,14 @@
+<!-- templates/tickets/notifications.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Notificaciones</h2>
+<ul>
+    {% for notification in notifications %}
+    <li{% if not notification.read %} class="unread"{% endif %}>{{ notification.message }} - {{ notification.created_at }}</li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'dashboard' %}" class="btn btn-primary">Volver al Dashboard</a>
+{% endblock %}

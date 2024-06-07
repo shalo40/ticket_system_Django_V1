@@ -1,0 +1,12 @@
+<!-- templates/tickets/add_equipment.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Agregar Equipo al Ticket #{{ ticket.id }}</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Agregar</button>
+</form>
+{% endblock %}

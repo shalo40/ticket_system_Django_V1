@@ -1,0 +1,12 @@
+<!-- templates/tickets/add_diagnosis_test.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Añadir Prueba de Diagnóstico</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Guardar Prueba</button>
+</form>
+{% endblock %}

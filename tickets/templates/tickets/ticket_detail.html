@@ -1,0 +1,69 @@
+<!-- templates/tickets/ticket_detail.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Detalle del Ticket #{{ ticket.id }}</h2>
+
+<p><strong>Cliente:</strong> {{ ticket.client.username }}</p>
+<p><strong>Descripción:</strong> {{ ticket.description }}</p>
+<p><strong>Estado:</strong> {{ ticket.get_status_display }}</p>
+
+<h3>Presupuestos de Trabajo</h3>
+<a href="{% url 'add_work_budget' ticket.id %}" class="btn btn-primary mb-3">Añadir Presupuesto</a>
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Descripción</th>
+            <th>Precio</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for budget in work_budgets %}
+        <tr>
+            <td>{{ budget.id }}</td>
+            <td>{{ budget.description }}</td>
+            <td>{{ budget.price }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h3>Diagnósticos</h3>
+<a href="{% url 'add_diagnosis' ticket.id %}" class="btn btn-primary mb-3">Añadir Diagnóstico</a>
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Descripción</th>
+            <th>Fecha</th>
+            <th>Pruebas</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for diagnosis in diagnoses %}
+        <tr>
+            <td>{{ diagnosis.id }}</td>
+            <td>{{ diagnosis.description }}</td>
+            <td>{{ diagnosis.date_created }}</td>
+            <td><a href="{% url 'add_diagnosis_test' diagnosis.id %}" class="btn btn-secondary">Añadir Prueba</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2>Comentarios</h2>
+<ul>
+  {% for comment in comments %}
+    <li><strong>{{ comment.author.username }}</strong> ({{ comment.date_created }}): {{ comment.text }}</li>
+  {% endfor %}
+</ul>
+
+<h2>Añadir Comentario</h2>
+<form method="post" action="{% url 'add_comment' ticket.id %}">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="btn btn-primary">Añadir Comentario</button>
+</form>
+{% endblock %}

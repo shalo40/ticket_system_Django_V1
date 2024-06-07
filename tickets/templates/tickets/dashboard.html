@@ -1,0 +1,43 @@
+<!-- templates/tickets/dashboard.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Dashboard</h2>
+<a href="{% url 'create_ticket' %}" class="btn btn-primary mb-3">Crear Nuevo Ticket</a>
+<a href="{% url 'report' %}" class="btn btn-secondary mb-3">Generar Reporte</a>
+<a href="{% url 'export_tickets_csv' %}" class="btn btn-secondary mb-3">Exportar CSV</a>
+
+<form method="get" class="form-inline mb-3">
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-secondary ml-2">Buscar</button>
+    <a href="{% url 'dashboard' %}" class="btn btn-secondary ml-2">Eliminar Filtro</a>
+</form>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Tipo de Servicio</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Cliente</th>
+            <th scope="col">Fecha de Creación</th>
+            <th scope="col">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for ticket in tickets %}
+        <tr>
+            <th scope="row">{{ ticket.id }}</th>
+            <td>{{ ticket.service_type.name }}</td>
+            <td>{{ ticket.get_status_display }}</td>
+            <td>{{ ticket.client.username }}</td>
+            <td>{{ ticket.created_at }}</td>
+            <td>
+                <a href="{% url 'ticket_detail' ticket.id %}" class="btn btn-sm btn-info">Detalles</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

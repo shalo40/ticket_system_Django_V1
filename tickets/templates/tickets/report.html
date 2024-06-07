@@ -1,0 +1,23 @@
+<!-- tickets/templates/tickets/report.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Reportes</h2>
+
+<h3>Tickets por Estado</h3>
+<ul>
+    {% for item in tickets_by_status %}
+    <li>{{ item.status }}: {{ item.count }}</li>
+    {% endfor %}
+</ul>
+
+<h3>Tickets por Tipo de Servicio</h3>
+<ul>
+    {% for item in tickets_by_service %}
+    <li>{{ item.service_type__name }}: {{ item.count }}</li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'dashboard' %}" class="btn btn-primary">Volver al Dashboard</a>
+{% endblock %}

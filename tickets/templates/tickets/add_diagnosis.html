@@ -1,0 +1,13 @@
+<!-- templates/tickets/add_diagnosis.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Añadir Diagnóstico al Ticket #{{ ticket.id }}</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Añadir Diagnóstico</button>
+</form>
+<a href="{% url 'ticket_detail' ticket.id %}" class="btn btn-secondary mt-3">Volver al Detalle del Ticket</a>
+{% endblock %}
