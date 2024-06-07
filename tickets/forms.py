@@ -9,8 +9,10 @@ class TicketForm(forms.ModelForm):
         fields = ['title', 'client', 'equipment', 'assigned_technician', 'service_type', 'description', 'is_remote']
 
     def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
-        self.fields['equipment'].queryset = Equipment.objects.all()
+        if user:
+            self.fields['equipment'].queryset = Equipment.objects.filter(client=user)
 
 class EquipmentForm(forms.ModelForm):
     class Meta:

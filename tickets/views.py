@@ -36,31 +36,28 @@ def dashboard(request):
 @login_required
 def create_ticket(request):
     if request.method == 'POST':
-        form = TicketForm(request.POST)
+        form = TicketForm(request.POST, user=request.user)
         if form.is_valid():
             ticket = form.save(commit=False)
-            ticket.client = request.user  # Suponiendo que el cliente es el usuario actual
+            ticket.client = request.user
             ticket.save()
             return redirect('dashboard')
     else:
-        form = TicketForm()
+        form = TicketForm(user=request.user)
     return render(request, 'tickets/create_ticket.html', {'form': form})
 
 @login_required
-def add_equipment(request, ticket_id):
-    ticket = get_object_or_404(Ticket, id=ticket_id)
+def add_equipment(request):
     if request.method == 'POST':
         form = EquipmentForm(request.POST)
         if form.is_valid():
             equipment = form.save(commit=False)
-            equipment.ticket = ticket
+            equipment.client = request.user
             equipment.save()
-            # Registrar acción
-            TicketHistory.objects.create(ticket=ticket, action='Equipo agregado')
-            return redirect('ticket_detail', ticket_id=ticket.id)
+            return redirect('create_ticket')
     else:
         form = EquipmentForm()
-    return render(request, 'tickets/add_equipment.html', {'form': form, 'ticket': ticket})
+    return render(request, 'tickets/add_equipment.html', {'form': form})
 
 @login_required
 def ticket_detail(request, ticket_id):

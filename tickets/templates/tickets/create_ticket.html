@@ -6,6 +6,11 @@
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
+    <div class="form-group">
+        <label for="id_equipment">Equipo:</label>
+        {{ form.equipment }}
+        <a href="{% url 'add_equipment' %}" class="btn btn-secondary">Añadir Equipo</a>
+    </div>
     <button type="submit" class="btn btn-primary">Crear Ticket</button>
 </form>
 {% endblock %}
